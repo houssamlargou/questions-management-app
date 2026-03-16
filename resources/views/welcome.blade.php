@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home | GeoQuestions</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
 
@@ -22,11 +21,11 @@
                     <a href="/questions" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition">All Questions</a>
                     
                     @auth
-                        <a href="/favorites" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition">My Favorites</a>
-                        <a href="/my-questions" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition">My Questions</a>
+                        <a href="#" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition">My Favorites</a>
+                        <a href="#" class="text-sm font-medium text-gray-600 hover:text-blue-600 transition">My Questions</a>
                         
                         @if(auth()->user()->role == 'admin')
-                            <a href="/admin" class="text-sm font-bold text-red-600 hover:text-red-700">Admin Panel</a>
+                            <a href="#" class="text-sm font-bold text-red-600 hover:text-red-700">Admin Panel</a>
                         @endif
                     @endauth
                 </div>
