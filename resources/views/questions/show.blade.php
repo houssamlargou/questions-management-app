@@ -81,6 +81,43 @@
                         </div>
                     </div>
                 </div>
+                <div class="mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
+    <h2 class="text-lg font-bold text-slate-900">Your Answer</h2>
+    <p class="mt-2 text-sm text-slate-500">
+        Write a helpful answer to this question.
+    </p>
+
+    @auth
+        <form method="POST" action="{{ route('answers.store', $question->id) }}" class="mt-5 space-y-4">
+            @csrf
+
+            <div>
+                <label for="body" class="block text-sm font-semibold text-slate-700">
+                    Answer
+                </label>
+                <textarea
+                    id="body"
+                    name="body"
+                    rows="5"
+                    required
+                    class="mt-2 w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 outline-none transition focus:border-blue-500 focus:bg-white focus:ring-4 focus:ring-blue-100 resize-none"
+                    placeholder="Write your answer here..."
+                >{{ old('body') }}</textarea>
+            </div>
+
+            <button
+                type="submit"
+                class="inline-flex items-center justify-center rounded-2xl bg-slate-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-600"
+            >
+                Submit answer
+            </button>
+        </form>
+        @else
+        <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
+            You need to be logged in to submit an answer.
+        </div>
+        @endauth
+</div>
             </article>
  
             <aside class="space-y-4 md:sticky md:top-3 self-start">
