@@ -33,7 +33,7 @@ class QuestionController extends Controller
     }
 
     public function show(string $id){
-        $question = \App\Models\Question::findOrFail($id);
+        $question = \App\Models\Question::with(['user', 'answers.user'])->findOrFail($id);
         return view('questions.show',compact('question'));
     }
 }
