@@ -79,7 +79,47 @@
                         <div class="mt-4 whitespace-pre-line text-[15px] leading-8 text-slate-700">
                             {{ $question->body }}
                         </div>
+                        
                     </div>
+                    <div class="mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
+    <div class="flex items-center justify-between">
+        <h2 class="text-lg font-bold text-slate-900">Answers</h2>
+        <span class="text-sm text-slate-400">
+            {{ $question->answers->count() }} answer(s)
+        </span>
+    </div>
+
+    @if ($question->answers->isEmpty())
+        <div class="mt-4 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-500">
+            No answers yet. Be the first to answer this question.
+        </div>
+    @else
+        <div class="mt-5 space-y-4">
+            @foreach ($question->answers as $answer)
+                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-10 w-10 items-center justify-center rounded-2xl bg-blue-50 text-sm font-bold text-blue-600">
+                            {{ strtoupper(substr($answer->user?->name ?? 'U', 0, 1)) }}
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-semibold text-slate-900">
+                                {{ $answer->user?->name ?? 'Unknown user' }}
+                            </p>
+                            <p class="text-xs text-slate-400">
+                                {{ $answer->created_at->diffForHumans() }}
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 whitespace-pre-line text-sm leading-7 text-slate-700">
+                        {{ $answer->body }}
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    @endif
+</div>
                 </div>
                 <div class="mt-6 rounded-3xl border border-slate-200 bg-white p-6 shadow-[0_10px_30px_rgba(15,23,42,0.04)]">
     <h2 class="text-lg font-bold text-slate-900">Your Answer</h2>
@@ -90,6 +130,13 @@
     @auth
         <form method="POST" action="{{ route('answers.store', $question->id) }}" class="mt-5 space-y-4">
             @csrf
+
+            @if ($errors->any())
+                <div class="rounded-2xl border border-red-200 bg-red-50 px-4 py-4 text-sm text-red-700">
+                    <p class="font-semibold">Please fix this first:</p>
+                    <p class="mt-1">{{ $errors->first() }}</p>
+                </div>
+            @endif
 
             <div>
                 <label for="body" class="block text-sm font-semibold text-slate-700">
@@ -112,11 +159,11 @@
                 Submit answer
             </button>
         </form>
-        @else
+    @else
         <div class="mt-5 rounded-2xl border border-slate-200 bg-slate-50 px-4 py-4 text-sm text-slate-600">
             You need to be logged in to submit an answer.
         </div>
-        @endauth
+    @endauth
 </div>
             </article>
  
@@ -180,6 +227,8 @@
                 </div>
             </aside>
         </div>
+        
     </div>
+    
 </body>
 </html>
