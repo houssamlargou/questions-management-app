@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Redirect;
 class QuestionController extends Controller
 {
     public function index(){
-        $questions = \App\Models\Question::latest()->get();
+        $questions = \App\Models\Question::with('favorites')->latest()->get();
         return view('questions.index',compact('questions'));
     }
 
@@ -33,7 +33,7 @@ class QuestionController extends Controller
     }
 
     public function show(string $id){
-        $question = \App\Models\Question::with(['user', 'answers.user'])->findOrFail($id);
+        $question = \App\Models\Question::with(['user', 'answers.user', 'favorites'])->findOrFail($id);
         return view('questions.show',compact('question'));
     }
 }
