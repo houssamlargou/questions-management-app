@@ -7,6 +7,6 @@ use Illuminate\Http\Request;
 class ProfileController extends Controller
 {
     public function index(){
-        return 'Profile page';
+        return view('profile.index');
     }
 }
