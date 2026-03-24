@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\FavoriteController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,6 +15,8 @@ Route::get('/questions/create', [QuestionController::class, 'create'])->middlewa
 Route::post('/questions',[QuestionController::class, 'store'])->middleware('auth')->name('question.store');
 Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('questions.show');
 Route::post('/questions/{question}/answer', [AnswerController::class,'store'])->middleware('auth')->name('answers.store');
+Route::post('/questions/{question}/favorite', [FavoriteController::class, 'store'])->middleware('auth')->name('favorites.store');
+Route::delete('/questions/{question}/favorite', [FavoriteController::class, 'destroy'])->middleware('auth')->name('favorites.destroy');
 Route::get('/login',[AuthController::class, 'showLogin'])->middleware('guest')->name('login');
 Route::get('/register', [AuthController::class, 'showRegister'])->middleware('guest')->name('register');
 Route::post('/register',[AuthController::class, 'register'])->middleware('guest');
