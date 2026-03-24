@@ -2,15 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Favorite;
+use App\Models\Question;
 use Illuminate\Http\Request;
 
 class FavoriteController extends Controller
 {
-    public function store(Request $request) {
-        return 'Store Favorite';
+    public function store(Request $request, Question $question) {
+        Favorite::firstOrCreate([
+            'user_id' => $request->user()->id,
+            'question_id' => $request->id,
+        ]);
+
+        return back();
     }
 
-    public function destroy(Request $request) {
-        return 'Destroy favorite';
+    public function destroy(Request $request, Question $question) {
+        Favorite::where('user_id', $request->id)->delete();
+
+        return back();
     }
 }
