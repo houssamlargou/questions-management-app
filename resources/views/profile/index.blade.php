@@ -90,12 +90,12 @@
                     <div class="p-6 space-y-5">
                         <div class="flex flex-col gap-1">
                             <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Display Name</label>
-                            <p class="text-sm font-semibold text-slate-700">--</p>
+                            <p class="text-sm font-semibold text-slate-700">{{ $user->name }}</p>
                         </div>
 
                         <div class="flex flex-col gap-1">
                             <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Email Address</label>
-                            <p class="text-sm font-semibold text-slate-700">--</p>
+                            <p class="text-sm font-semibold text-slate-700">{{ $user->email }}</p>
                         </div>
 
                         <div class="flex flex-col gap-1">

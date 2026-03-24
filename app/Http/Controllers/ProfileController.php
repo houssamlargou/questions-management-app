@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 class ProfileController extends Controller
 {
-    public function index(){
-        return view('profile.index');
+    public function index(Request $request){
+        $user = $request->user();
+
+        return view('profile.index', compact('user'));
     }
 }
