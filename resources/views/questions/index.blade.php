@@ -6,112 +6,145 @@
     <title>Questions | GeoQuestions</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-[#F9FBFC] font-sans antialiased text-slate-900">
-    <div class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+<body class="min-h-screen bg-[#FDFDFE] font-sans antialiased text-slate-900">
+    <div class="mx-auto max-w-5xl px-4 py-12 sm:px-6 lg:px-8">
         
-        <header class="relative mb-10 overflow-hidden rounded-[2.5rem] bg-slate-900 px-8 py-10 shadow-2xl shadow-slate-200">
-            <div class="absolute right-0 top-0 -mr-16 -mt-16 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl"></div>
-            <div class="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-                <div>
-                    <div class="inline-flex items-center gap-2 rounded-lg bg-blue-500/10 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-blue-400 ring-1 ring-inset ring-blue-500/20">
-                        Community
+        <header class="relative mb-12 overflow-hidden rounded-[3rem] bg-slate-900 p-8 shadow-2xl shadow-indigo-100 sm:p-14">
+            <div class="absolute -right-20 -top-20 h-96 w-96 rounded-full bg-indigo-500/10 blur-3xl"></div>
+            <div class="absolute -left-20 -bottom-20 h-64 w-64 rounded-full bg-blue-500/10 blur-3xl"></div>
+
+            <div class="relative z-10 flex flex-col gap-10 lg:flex-row lg:items-center lg:justify-between">
+                <div class="max-w-xl">
+                    <div class="inline-flex items-center gap-2 rounded-full bg-indigo-500/20 px-4 py-1.5 text-[10px] font-black uppercase tracking-[0.2em] text-indigo-300 ring-1 ring-inset ring-indigo-500/30">
+                        Knowledge Base
                     </div>
-                    <h1 class="mt-3 text-4xl font-extrabold tracking-tight text-white">
-                        Questions Feed
+                    <h1 class="mt-6 text-4xl font-[800] tracking-tight text-white sm:text-5xl">
+                        Community <span class="text-indigo-400">Feed.</span>
                     </h1>
-                    <p class="mt-2 text-slate-400">
-                        Discover insights and share knowledge with the community.
+                    <p class="mt-4 text-lg font-medium text-slate-400 leading-relaxed">
+                        Explore the latest inquiries, insights, and geographical discussions from members worldwide.
                     </p>
                 </div>
+
                 @auth
-                    <a href="{{ route('questions.create') }}"
-                       class="inline-flex items-center justify-center rounded-2xl bg-white px-6 py-3.5 text-sm font-bold text-slate-900 transition-all hover:bg-blue-50 hover:scale-105 active:scale-95">
-                        Ask a Question
-                    </a>
+                    <div class="shrink-0">
+                        <a href="{{ route('questions.create') }}"
+                           class="inline-flex items-center justify-center rounded-2xl bg-white px-8 py-4 text-sm font-bold text-slate-900 transition-all hover:bg-indigo-50 hover:scale-105 active:scale-95 shadow-xl shadow-white/5">
+                            Ask a Question
+                        </a>
+                    </div>
                 @endauth
+            </div>
+
+            <div class="relative z-10 mt-12">
+                <form method="GET" action="{{ route('questions.search') }}" class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-2">
+                    <div class="group relative flex-1">
+                        <div class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-indigo-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input
+                            type="text"
+                            name="q"
+                            value="{{ $query ?? '' }}"
+                            placeholder="Search questions..."
+                            class="w-full rounded-2xl border-none bg-white/10 py-4 pl-14 pr-4 text-sm text-white placeholder:text-slate-500 backdrop-blur-md outline-none ring-1 ring-white/20 transition-all focus:bg-white focus:text-slate-900 focus:placeholder:text-slate-400 focus:ring-4 focus:ring-indigo-500/20"
+                        >
+                    </div>
+
+                    <div class="relative shrink-0">
+                        <select
+                            name="sort"
+                            class="w-full appearance-none rounded-2xl border-none bg-white/10 py-4 pl-5 pr-10 text-sm font-bold text-white backdrop-blur-md outline-none ring-1 ring-white/20 transition-all focus:bg-white focus:text-slate-900 focus:ring-4 focus:ring-indigo-500/20 sm:w-auto"
+                        >
+                            <option value="latest" {{ ($sort ?? 'latest') === 'latest' ? 'selected' : '' }}>Latest Posts</option>
+                            <option value="oldest" {{ ($sort ?? 'latest') === 'oldest' ? 'selected' : '' }}>Oldest Posts</option>
+                        </select>
+                        <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+
+                    <button
+                        type="submit"
+                        class="rounded-2xl bg-indigo-600 px-8 py-4 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95"
+                    >
+                        Search
+                    </button>
+                </form>
             </div>
         </header>
 
         @if ($questions->isEmpty())
-            <div class="rounded-[2rem] border-2 border-dashed border-slate-200 bg-white px-6 py-16 text-center">
-                <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-slate-50 text-slate-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            <div class="rounded-[3rem] border border-slate-100 bg-white/50 p-20 text-center shadow-sm backdrop-blur-sm">
+                <div class="mx-auto flex h-20 w-20 items-center justify-center rounded-[2rem] bg-slate-50 text-slate-200">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                     </svg>
                 </div>
-                <h2 class="mt-4 text-xl font-bold text-slate-800">Silence is golden, but questions are better</h2>
-                <p class="mt-2 text-slate-500">No one has posted yet. Why not break the ice?</p>
-                @auth
-                    <a href="{{ route('questions.create') }}"
-                       class="mt-8 inline-flex items-center justify-center rounded-2xl bg-blue-600 px-6 py-3 text-sm font-bold text-white transition hover:bg-blue-700 shadow-lg shadow-blue-100">
-                        Start the Conversation
-                    </a>
-                @endauth
+                <h2 class="mt-8 text-2xl font-bold text-slate-800">The feed is currently quiet</h2>
+                <p class="mt-2 text-slate-500 font-medium">No results found for your criteria. Try adjusting your search.</p>
             </div>
         @else
-            <div class="grid gap-6">
+            <div class="space-y-8">
                 @foreach ($questions as $question)
-                    <article class="group relative rounded-[2rem] border border-slate-200 bg-white p-1 transition-all hover:border-blue-300 hover:shadow-xl hover:shadow-blue-500/5">
-                        <a href="{{ route('questions.show', $question->id) }}" class="block p-7">
-                            <div class="flex items-start justify-between">
+                    <article class="group relative rounded-[2.5rem] border border-transparent bg-white p-2 shadow-[0_15px_40px_rgba(0,0,0,0.02)] transition-all hover:border-indigo-100 hover:shadow-2xl hover:shadow-indigo-500/5">
+                        <a href="{{ route('questions.show', $question->id) }}" class="block p-8 sm:p-10">
+                            <div class="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
                                 <div class="flex-1">
-                                    <div class="flex items-center gap-3">
-                                        <span class="text-[10px] font-bold uppercase tracking-widest text-blue-600">
-                                            #{{ $question->id }}
-                                        </span>
-                                        <span class="h-1 w-1 rounded-full bg-slate-300"></span>
-                                        <span class="flex items-center gap-1 text-xs font-medium text-slate-400">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            {{ $question->created_at->diffForHumans() }}
-                                        </span>
+                                    <div class="flex items-center gap-4">
+                                        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-900 text-[10px] font-black text-white">
+                                            Q
+                                        </div>
+                                        <div class="flex flex-col">
+                                            <span class="text-[10px] font-black uppercase tracking-widest text-indigo-500">Post #{{ $question->id }}</span>
+                                            <span class="text-[11px] font-bold text-slate-400">{{ $question->created_at->diffForHumans() }}</span>
+                                        </div>
                                     </div>
                                     
-                                    <h2 class="mt-3 text-2xl font-bold text-slate-900 group-hover:text-blue-600 transition-colors leading-tight">
+                                    <h2 class="mt-6 text-2xl font-[800] leading-tight text-slate-900 transition-colors group-hover:text-indigo-600">
                                         {{ $question->title }}
                                     </h2>
                                     
-                                    <p class="mt-3 line-clamp-2 text-[15px] leading-relaxed text-slate-500">
+                                    <p class="mt-4 line-clamp-2 text-base leading-relaxed text-slate-500 font-medium">
                                         {{ $question->body }}
                                     </p>
                                 </div>
                                 
-                                <div class="hidden sm:block">
-                                    <div class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-50 text-slate-300 transition-all group-hover:bg-blue-600 group-hover:text-white">
+                                <div class="hidden lg:block">
+                                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-slate-50 text-slate-300 transition-all group-hover:bg-indigo-50 group-hover:text-indigo-600 group-hover:rotate-45">
                                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 10l7-7m0 0l7 7m-7-7v18" />
                                         </svg>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="mt-6 flex items-center justify-between border-t border-slate-50 pt-6">
-                                <div class="flex items-center gap-4">
-                                    <div class="flex items-center gap-1.5">
-                                        <div class="h-2 w-2 rounded-full bg-green-500"></div>
-                                        <span class="text-xs font-bold text-slate-700">Active</span>
+                            <div class="mt-10 flex items-center justify-between border-t border-slate-50 pt-8">
+                                <div class="flex items-center gap-6">
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-2 w-2 animate-pulse rounded-full bg-green-500"></div>
+                                        <span class="text-[11px] font-black uppercase tracking-widest text-slate-700">Open Discussion</span>
                                     </div>
                                     
                                     @auth
                                         @php $isFavorited = $question->favorites->contains('user_id', auth()->id()); @endphp
                                         @if ($isFavorited)
-                                            <span class="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-[10px] font-bold text-red-600 ring-1 ring-inset ring-red-100">
+                                            <div class="flex items-center gap-1.5 rounded-full bg-rose-50 px-3 py-1 text-[10px] font-bold text-rose-600">
                                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
                                                     <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
                                                 </svg>
                                                 Saved
-                                            </span>
-                                        @else
-                                            <span class="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-[10px] font-bold text-slate-500">
-                                                Community Post
-                                            </span>
+                                            </div>
                                         @endif
                                     @endauth
                                 </div>
                                 
-                                <span class="text-xs font-bold text-blue-600 group-hover:underline">
-                                    View Discussion &rarr;
+                                <span class="text-xs font-black uppercase tracking-widest text-indigo-600 group-hover:translate-x-1 transition-transform">
+                                    Read Insight &rarr;
                                 </span>
                             </div>
                         </a>
