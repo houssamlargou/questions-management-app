@@ -36,4 +36,23 @@ class QuestionController extends Controller
         $question = \App\Models\Question::with(['user', 'answers.user', 'favorites'])->findOrFail($id);
         return view('questions.show',compact('question'));
     }
+
+    public function edit(\App\models\Question $question) {
+        abort_if(auth()->id() !== $question->user_id,403);
+        return view('questions.edit', compact('question'));
+    }
+
+    public function update(\Illuminate\Http\Request $request, \App\Models\Question $question) {
+        abort_if(auth()->id() !== $question->user_id, 403);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'body' => 'required|string',
+        ]);
+
+        $question->update([
+            'title' => $validated['title'],
+            'body' => $validated['body'],
+        ]);
+        return redirect()->route('questions.show', $question->id);
+    }
 }

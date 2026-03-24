@@ -16,6 +16,8 @@ Route::get('/questions', [QuestionController::class, 'index'])->middleware('auth
 Route::get('/questions/create', [QuestionController::class, 'create'])->middleware('auth')->name('questions.create');
 Route::post('/questions',[QuestionController::class, 'store'])->middleware('auth')->name('question.store');
 Route::get('/questions/search', [SearchController::class, 'index'])->name('questions.search');
+Route::get('/questions/{question}/edit', [QuestionController::class, 'edit'])->middleware('auth')->name('questions.edit');
+Route::put('/questions/{question}', [QuestionController::class, 'update'])->middleware('auth')->name('questions.update');
 Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('questions.show');
 Route::post('/questions/{question}/answer', [AnswerController::class,'store'])->middleware('auth')->name('answers.store');
 Route::post('/questions/{question}/favorite', [FavoriteController::class, 'store'])->middleware('auth')->name('favorites.store');
