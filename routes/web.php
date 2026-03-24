@@ -6,6 +6,7 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\controllers\ProfileController;
+use App\Http\Controllers\SearchController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -14,6 +15,7 @@ Route::get('/', function () {
 Route::get('/questions', [QuestionController::class, 'index'])->middleware('auth')->name('questions.index');
 Route::get('/questions/create', [QuestionController::class, 'create'])->middleware('auth')->name('questions.create');
 Route::post('/questions',[QuestionController::class, 'store'])->middleware('auth')->name('question.store');
+Route::get('/questions/search', [SearchController::class, 'index'])->name('questions.search');
 Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('questions.show');
 Route::post('/questions/{question}/answer', [AnswerController::class,'store'])->middleware('auth')->name('answers.store');
 Route::post('/questions/{question}/favorite', [FavoriteController::class, 'store'])->middleware('auth')->name('favorites.store');
