@@ -55,4 +55,12 @@ class QuestionController extends Controller
         ]);
         return redirect()->route('questions.show', $question->id);
     }
+
+    public function destroy(\App\Models\Question $question) {
+        abort_if(auth()->id() !== $question->user_id, 403);
+
+        $question->delete();
+
+        return redirect()->route('questions.index');
+    }
 }
