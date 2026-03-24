@@ -9,6 +9,7 @@ class SearchController extends Controller
 {
     public function index(Request $request) {
         $query = $request->input('q');
+        $sort = $request->input('sort', 'latest');
         $questions = Question::with('favorites')
             ->when($query, function ($builder) use ($query) {
                 $builder->where(function ($subQuery) use ($query) {
@@ -16,10 +17,14 @@ class SearchController extends Controller
                              ->orWhere('body', 'like', '%' . $query . '%');
                 });
             })
-            ->latest()
+            ->when($sort === 'oldest', function ($builder) {
+                $builder->oldest();
+            }, function ($builder) {
+                $builder->latest();
+            })
             ->get();
-        
-        return view('questions.index', compact('questions','query'));
+
+        return view('questions.index', compact('questions', 'query', 'sort'));
     }
 }
  

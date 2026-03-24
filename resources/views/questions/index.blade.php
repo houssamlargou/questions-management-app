@@ -36,23 +36,41 @@
                 @endauth
             </div>
 
-            <div class="relative z-10 mt-12 max-w-2xl">
-                <form method="GET" action="{{ route('questions.search') }}" class="group relative flex items-center">
-                    <div class="absolute left-5 text-slate-400 transition-colors group-focus-within:text-indigo-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                        </svg>
+            <div class="relative z-10 mt-12">
+                <form method="GET" action="{{ route('questions.search') }}" class="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-2">
+                    <div class="group relative flex-1">
+                        <div class="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 transition-colors group-focus-within:text-indigo-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </div>
+                        <input
+                            type="text"
+                            name="q"
+                            value="{{ $query ?? '' }}"
+                            placeholder="Search questions..."
+                            class="w-full rounded-2xl border-none bg-white/10 py-4 pl-14 pr-4 text-sm text-white placeholder:text-slate-500 backdrop-blur-md outline-none ring-1 ring-white/20 transition-all focus:bg-white focus:text-slate-900 focus:placeholder:text-slate-400 focus:ring-4 focus:ring-indigo-500/20"
+                        >
                     </div>
-                    <input
-                        type="text"
-                        name="q"
-                        value="{{ $query ?? '' }}"
-                        placeholder="Search for topics, locations, or keywords..."
-                        class="w-full rounded-3xl border-none bg-white/10 py-5 pl-14 pr-32 text-white placeholder:text-slate-500 backdrop-blur-md outline-none ring-1 ring-white/20 transition-all focus:bg-white focus:text-slate-900 focus:placeholder:text-slate-400 focus:ring-4 focus:ring-indigo-500/20"
-                    >
+
+                    <div class="relative shrink-0">
+                        <select
+                            name="sort"
+                            class="w-full appearance-none rounded-2xl border-none bg-white/10 py-4 pl-5 pr-10 text-sm font-bold text-white backdrop-blur-md outline-none ring-1 ring-white/20 transition-all focus:bg-white focus:text-slate-900 focus:ring-4 focus:ring-indigo-500/20 sm:w-auto"
+                        >
+                            <option value="latest" {{ ($sort ?? 'latest') === 'latest' ? 'selected' : '' }}>Latest Posts</option>
+                            <option value="oldest" {{ ($sort ?? 'latest') === 'oldest' ? 'selected' : '' }}>Oldest Posts</option>
+                        </select>
+                        <div class="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-slate-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+                            </svg>
+                        </div>
+                    </div>
+
                     <button
                         type="submit"
-                        class="absolute right-2 rounded-2xl bg-indigo-600 px-6 py-3 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-indigo-500 active:scale-95"
+                        class="rounded-2xl bg-indigo-600 px-8 py-4 text-xs font-black uppercase tracking-widest text-white transition-all hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95"
                     >
                         Search
                     </button>
@@ -68,13 +86,7 @@
                     </svg>
                 </div>
                 <h2 class="mt-8 text-2xl font-bold text-slate-800">The feed is currently quiet</h2>
-                <p class="mt-2 text-slate-500 font-medium">Be the first to spark a conversation in the community.</p>
-                @auth
-                    <a href="{{ route('questions.create') }}"
-                       class="mt-10 inline-flex items-center justify-center rounded-2xl bg-slate-900 px-8 py-4 text-sm font-bold text-white transition-all hover:bg-indigo-600 hover:shadow-xl hover:shadow-indigo-100">
-                        Start the Discussion
-                    </a>
-                @endauth
+                <p class="mt-2 text-slate-500 font-medium">No results found for your criteria. Try adjusting your search.</p>
             </div>
         @else
             <div class="space-y-8">
